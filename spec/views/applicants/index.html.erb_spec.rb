@@ -10,10 +10,18 @@ RSpec.describe 'applicants/index' do
     )
   end
 
-  let(:project) do
+  let(:project1) do
     Project.create!(
       payment_date: Date.current + 1.month,
-      title: 'Project',
+      title: 'Project 1',
+      fund:
+    )
+  end
+
+  let(:project2) do
+    Project.create!(
+      payment_date: Date.current + 1.month,
+      title: 'Project 2',
       fund:
     )
   end
@@ -24,14 +32,14 @@ RSpec.describe 'applicants/index' do
                name: 'Applicant 1',
                overview: 'Overview',
                funding: 500,
-               project:,
+               project: project1,
                status: 0
              ),
              Applicant.create!(
                name: 'Applicant 2',
                overview: 'Overview',
                funding: 500,
-               project:,
+               project: project2,
                status: 4
              )
            ])
@@ -41,7 +49,8 @@ RSpec.describe 'applicants/index' do
     render
     cell_selector = 'tr>td'
     assert_select cell_selector, text: Regexp.new('Applicant'), count: 2
-    assert_select cell_selector, text: 'Project', count: 2
+    assert_select cell_selector, text: 'Project 1', count: 1
+    assert_select cell_selector, text: 'Project 2', count: 1
     assert_select cell_selector, text: 'Applied', count: 1
     assert_select cell_selector, text: 'Approved', count: 1
   end
