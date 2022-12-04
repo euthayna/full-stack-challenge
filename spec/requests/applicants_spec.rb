@@ -24,7 +24,9 @@ RSpec.describe '/applicants' do
       overview: 'Overview',
       funding: 500,
       project_id: project.id,
-      status: 'initial_review'
+      status_transitions_attributes: [{
+        name: 'initial_review'
+      }]
     }
   end
 
@@ -32,7 +34,7 @@ RSpec.describe '/applicants' do
 
   describe 'GET /index' do
     it 'renders a successful response' do
-      Applicant.create! valid_attributes
+      Applicant.create!(valid_attributes)
       get applicants_url
       expect(response).to be_successful
     end
@@ -93,7 +95,11 @@ RSpec.describe '/applicants' do
     context 'with valid parameters' do
       let(:new_attributes) do
         {
-          status: 'approved'
+          status_transitions_attributes: {
+            '0': {
+              name: 'approved'
+            }
+          }
         }
       end
 
@@ -101,7 +107,7 @@ RSpec.describe '/applicants' do
         applicant = Applicant.create! valid_attributes
         patch applicant_url(applicant), params: { applicant: new_attributes }
         applicant.reload
-        expect(applicant.status).to eq('approved')
+        expect(applicant.status.name).to eq('approved')
       end
 
       it 'redirects to the applicant' do

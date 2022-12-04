@@ -31,15 +31,22 @@
     <%= form.collection_select :project_id, Project.order(:name), :id, :title %>
   </div>
 
-  <% unless applicant.new_record? %>
-    <div>
-      <%= form.label :status, style: "display: block" %>
-      <%=
-        form.select :status, options_for_select(
-          Applicant.statuses.map {|key, value| [key.titleize, Applicant.statuses.key(value)]}, applicant.status
-        )
-      %>
-    </div>
+  <%= form.fields_for :status_transitions do |status_form| %>
+    <% if current_status?(form, status_form) %>
+      <div class="field">
+        <div>
+          <%= status_form.label :name, "Status", style: "display: block" %>
+          <%=
+            status_form.select :name, options_for_select(
+              StatusTransition.names.map {|key, value| [key.titleize, StatusTransition.names.key(value)]}, applicant.status.name
+            )
+          %>
+        </div>
+
+        <%= status_form.label :comment %>
+        <%= status_form.text_area :comment %>
+      </div>
+    <% end %>
   <% end %>
 
   <div>

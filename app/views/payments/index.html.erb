@@ -33,7 +33,7 @@
             project = Project.find_by(title: project)
             applicants = Applicant.all.select do |applicant|
               if applicant.project.title == project.title &&
-                 applicant.status == 'approved'
+                 applicant.status.name == 'approved'
                 true
               else
                 false

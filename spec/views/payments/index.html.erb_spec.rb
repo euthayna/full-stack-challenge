@@ -31,19 +31,18 @@ RSpec.describe 'payments/index.html.erb' do
       name: 'Applicant 1',
       overview: 'Overview',
       funding: 500,
-      project:,
-      status: 0
+      project:
     )
 
+    StatusTransition.create!(name: 'applied', applicant_id: Applicant.first.id)
     Applicant.create!(
       name: 'Applicant 2',
       overview: 'Overview',
       funding: 500,
-      project:,
-      status: 4
+      project: project2
     )
 
-    project2
+    StatusTransition.create!(name: 'approved', applicant_id: Applicant.second.id)
   end
 
   it 'renders a list of payments' do

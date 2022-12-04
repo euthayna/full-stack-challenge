@@ -23,8 +23,7 @@ RSpec.describe 'applicants/new' do
                          name: 'Applicant Name',
                          overview: 'Overview',
                          funding: 1,
-                         project:,
-                         status: 1
+                         project:
                        ))
   end
 
@@ -40,7 +39,7 @@ RSpec.describe 'applicants/new' do
 
       assert_select 'select[name=?]', 'applicant[project_id]'
 
-      assert_select 'select[name=?]', 'applicant[status]', false
+      assert_select 'select[name=?]', 'applicant[status_transitions_attributes][0][name]', false
     end
   end
 end
