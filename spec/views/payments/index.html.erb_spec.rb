@@ -43,7 +43,7 @@ RSpec.describe 'payments/index.html.erb' do
       status: 4
     )
 
-    project2
+    assign(:projects, [project, project2])
   end
 
   it 'renders a list of payments' do

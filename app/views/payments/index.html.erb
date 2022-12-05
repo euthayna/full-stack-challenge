@@ -1,13 +1,4 @@
 <h1>Payments</h1>
-
-<%
-  projects = Project.all
-
-  dates = projects.each_with_object(Hash.new { |k, v| k[v] = [] }) do |project, output|
-    output[project.payment_date] << project.title
-  end
-%>
-
 <table id="payments">
   <thead>
     <tr>
@@ -17,21 +8,13 @@
     </tr>
   </thead>
   <tbody>
-  <%
-    dates.sort_by { |date, _project| date }
-         .select { |date, _project| date >= Date.current }
-         .to_h
-         .keys
-         .each do |date|
-  %>
-    <% dates[date].each do |project| %>
+    <% @projects.each do |project| %>
       <tr>
-        <td><%= date %></td>
-        <td><%= project %></td>
+        <td><%= project.payment_date %></td>
+        <td><%= project.title %></td>
         <td>
           <%=
-            project = Project.find_by(title: project)
-            applicants = Applicant.all.select do |applicant|
+            applicants = project.applicants.select do |applicant|
               if applicant.project.title == project.title &&
                  applicant.status == 'approved'
                 true
@@ -45,6 +28,5 @@
         </td>
       </tr>
     <% end %>
-  <% end %>
   </tbody>
 </table>

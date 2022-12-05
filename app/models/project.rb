@@ -6,4 +6,5 @@ class Project < ApplicationRecord
   validates :payment_date, presence: true
 
   belongs_to :fund
+  has_many :applicants, dependent: :nullify
 end
