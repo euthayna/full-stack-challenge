@@ -18,14 +18,20 @@ RSpec.describe 'applicants/show' do
     )
   end
 
+  let(:applicant) do
+    Applicant.create!(
+      name: 'Applicant Name',
+      overview: 'Overview',
+      funding: 500,
+      project:
+    )
+  end
+
+  let(:status_transition) { StatusTransition.create!(name: 'declined', applicant_id: applicant.id) }
+
   before do
-    assign(:applicant, Applicant.create!(
-                         name: 'Applicant Name',
-                         overview: 'Overview',
-                         funding: 500,
-                         project:,
-                         status: 3
-                       ))
+    status_transition
+    assign(:applicant, applicant)
   end
 
   it 'renders attributes in <p>' do

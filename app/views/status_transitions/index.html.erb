@@ -1,0 +1,26 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Status Transitions</h1>
+
+<table id="status_transition">
+  <thead>
+    <tr>
+      <th>Applicant</th>
+      <th>Status</th>
+      <th>Comment</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @status_transitions.find_each do |status_transition| %>
+    <tr>
+      <td><%= status_transition.applicant.name %></td>
+      <td><%= status_transition.name %></td>
+      <td><%= status_transition.comment %></td>
+    </tr>
+  <% end %>
+  <td><%= link_to "Back to applicant", applicant_path(@applicant.id) %></td>
+  </tbody>
+</table>
+
+

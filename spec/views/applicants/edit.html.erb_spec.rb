@@ -23,12 +23,14 @@ RSpec.describe 'applicants/edit' do
       name: 'Applicant Name',
       overview: 'Overview',
       funding: 1,
-      project:,
-      status: 1
+      project:
     )
   end
 
+  let(:status_transition) { StatusTransition.create!(name: 'applied', applicant_id: applicant.id) }
+
   before do
+    status_transition
     assign(:applicant, applicant)
   end
 
@@ -44,7 +46,7 @@ RSpec.describe 'applicants/edit' do
 
       assert_select 'select[name=?]', 'applicant[project_id]'
 
-      assert_select 'select[name=?]', 'applicant[status]'
+      assert_select 'select[name=?]', 'applicant[status_transitions_attributes][0][name]'
     end
   end
 end

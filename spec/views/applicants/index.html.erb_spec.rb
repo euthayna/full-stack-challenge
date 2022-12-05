@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 
+# rubocop:disable RSpec/MultipleMemoizedHelpers
 RSpec.describe 'applicants/index' do
   let(:fund) do
     Fund.create!(
@@ -18,23 +19,31 @@ RSpec.describe 'applicants/index' do
     )
   end
 
+  let(:applicant1) do
+    Applicant.create!(
+      name: 'Applicant 1',
+      overview: 'Overview',
+      funding: 500,
+      project:
+    )
+  end
+
+  let(:applicant2) do
+    Applicant.create!(
+      name: 'Applicant 2',
+      overview: 'Overview',
+      funding: 500,
+      project:
+    )
+  end
+
+  let(:status_transition_applicant1) { StatusTransition.create!(name: 'applied', applicant_id: applicant1.id) }
+  let(:status_transition_applicant2) { StatusTransition.create!(name: 'approved', applicant_id: applicant2.id) }
+
   before do
-    assign(:applicants, [
-             Applicant.create!(
-               name: 'Applicant 1',
-               overview: 'Overview',
-               funding: 500,
-               project:,
-               status: 0
-             ),
-             Applicant.create!(
-               name: 'Applicant 2',
-               overview: 'Overview',
-               funding: 500,
-               project:,
-               status: 4
-             )
-           ])
+    status_transition_applicant1
+    status_transition_applicant2
+    assign(:applicants, [applicant1, applicant2])
   end
 
   it 'renders a list of applicants' do
@@ -46,3 +55,4 @@ RSpec.describe 'applicants/index' do
     assert_select cell_selector, text: 'Approved', count: 1
   end
 end
+# rubocop:enable RSpec/MultipleMemoizedHelpers

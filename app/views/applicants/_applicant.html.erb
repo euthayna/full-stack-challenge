@@ -21,7 +21,6 @@
 
   <p>
     <strong>Status:</strong>
-    <%= applicant.status.titleize %>
+    <%= applicant.status&.name&.capitalize %>
   </p>
-
 </div>

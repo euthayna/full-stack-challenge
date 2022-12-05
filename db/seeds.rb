@@ -31,8 +31,19 @@ Applicant.insert_all( # rubocop:disable Rails/SkipsModelValidations
       name: Faker::Name.name,
       funding: rand(1..10) * 100,
       overview: Faker::Lorem.paragraph,
-      project_id: project_ids.sample,
-      status: Applicant.statuses.keys.sample
+      project_id: project_ids.sample
     }
   end
 )
+
+# rubocop:disable Rails/SkipsModelValidations
+StatusTransition.insert_all(
+  Applicant.all.map do |applicant|
+    {
+      applicant_id: applicant.id,
+      name: rand(0..4),
+      comment: "Comment for applicant named #{applicant.name}"
+    }
+  end
+)
+# rubocop:enable Rails/SkipsModelValidations
