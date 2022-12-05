@@ -19,7 +19,7 @@
   <% @applicants.each do |applicant| %>
     <tr>
       <td><%= applicant.name %></td>
-      <td><%= applicant.project_title %></td>
+      <td><%= applicant.project.title %></td>
       <td><%= applicant.status.titleize %></td>
       <td><%= link_to "Show this applicant", applicant %></td>
     </tr>
